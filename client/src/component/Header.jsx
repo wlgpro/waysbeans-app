@@ -12,22 +12,29 @@ import {
 import ModalLogin from "./ModalLogin";
 import ModalRegister from "./ModalRegister";
 import Cart from "../assets/image/Cart.png";
-import Profil from "../assets/image/Profil.png";
+import Profile from "../assets/image/blank-profile.png";
 import User from "../assets/image/User.png";
 import Logout from "../assets/image/Logout.png";
 import IconAddProduct from "../assets/image/IconAddProduct.png";
 import IconListProduct from "../assets/image/IconListProduct.png";
 import { UserContext } from "../context/userContext";
 import { API, setAuthToken } from "../config/api";
+import { useQuery } from "react-query";
 import Swal from "sweetalert2";
 
-function Header() {
+function Header(props) {
   let navigate = useNavigate();
   const [state, dispatch] = useContext(UserContext);
   const [isLoading, setIsLoading] = useState(true);
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
-  const [totalQty, setTotalQty] = useState(0);
+  // const [totalQty, setTotalQty] = useState(0);
+  const [UserCarts, SetUserCarts] = useState([]);
+
+  let { data: profile } = useQuery("profileCache", async () => {
+    const response = await API.get("/profile");
+    return response.data.data;
+  });
 
   useEffect(() => {
     // Redirect Auth but just when isLoading is false
@@ -85,28 +92,14 @@ function Header() {
     setShowRegister(true);
   };
 
-  const fetchCart = () => {
-    const dataCart = JSON.parse(localStorage.getItem("dataCart")) || [];
-    let total = 0;
-
-    dataCart.map((item) => {
-      total = total + item.qty;
-    });
-    setTotalQty(total);
-  };
-
-  const [loginUsers, setLoginUsers] = useState({});
-  console.log(loginUsers);
-
-  useEffect(() => {
-    fetchCart();
-    const LoginUsers = JSON.parse(localStorage.getItem("loginUser")) || {};
-    setLoginUsers(LoginUsers);
-
-    window.addEventListener("storage", () => {
-      fetchCart();
-    });
-  }, []);
+  useQuery("usercartsCache", async () => {
+    try {
+      const response = await API.get("/carts");
+      SetUserCarts(response.data.data);
+    } catch (error) {
+      return;
+    }
+  });
 
   const logout = () => {
     console.log(state);
@@ -140,8 +133,19 @@ function Header() {
               state.user.is_admin === true ? (
                 <Nav className="ms-auto gap-3">
                   <NavDropdown
+                    id="dropdown"
                     title={
-                      <img src={Profil} alt="" style={{ content: "none" }} />
+                      <img
+                        src={Profile}
+                        alt=""
+                        className="rounded-circle"
+                        style={{
+                          cursor: "pointer",
+                          objectFit: "cover",
+                          width: "60px",
+                          height: "60px",
+                        }}
+                      />
                     }
                   >
                     <NavDropdown.Item href="/add-product">
@@ -181,16 +185,37 @@ function Header() {
                     <div className="me-3">
                       <img src={Cart} alt="" />
                     </div>
-                    <Badge
-                      pill
-                      bg="danger"
-                      style={{ position: "absolute", top: 20, right: 5 }}
-                    >
-                      {totalQty}
-                    </Badge>
+                    {UserCarts.filter((cart) => cart.user_id === state.user.id)
+                      .length > 0 ? (
+                      <Badge
+                        pill
+                        bg="danger"
+                        style={{ position: "absolute", top: 20, right: 5 }}
+                      >
+                        {
+                          UserCarts.filter(
+                            (cart) => cart.user_id === state.user.id
+                          ).length
+                        }
+                      </Badge>
+                    ) : null}
                   </NavLink>
 
-                  <NavDropdown title={<img src={Profil} alt="" />}>
+                  <NavDropdown
+                    id="dropdown"
+                    title={
+                      <img
+                        src={profile?.photo ? profile.photo : Profile}
+                        alt=""
+                        className="rounded-circle"
+                        style={{
+                          cursor: "pointer",
+                          width: "60px",
+                          height: "60px",
+                        }}
+                      />
+                    }
+                  >
                     <NavDropdown.Item href="/my-transaction">
                       <img
                         src={User}
