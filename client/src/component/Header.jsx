@@ -12,7 +12,7 @@ import {
 import ModalLogin from "./ModalLogin";
 import ModalRegister from "./ModalRegister";
 import Cart from "../assets/image/Cart.png";
-import Profile from "../assets/image/blank-profile.png";
+import Profil from "../assets/image/Profil.png";
 import User from "../assets/image/User.png";
 import Logout from "../assets/image/Logout.png";
 import IconAddProduct from "../assets/image/IconAddProduct.png";
@@ -136,7 +136,7 @@ function Header(props) {
                     id="dropdown"
                     title={
                       <img
-                        src={Profile}
+                        src={Profil}
                         alt=""
                         className="rounded-circle"
                         style={{
@@ -205,7 +205,7 @@ function Header(props) {
                     id="dropdown"
                     title={
                       <img
-                        src={profile?.photo ? profile.photo : Profile}
+                        src={Profil}
                         alt=""
                         className="rounded-circle"
                         style={{
