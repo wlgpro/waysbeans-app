@@ -1,49 +1,14 @@
-// import DataProduct from "../assets/data/data.json";
-// import { useState } from "react";
 import { Button } from "react-bootstrap";
 import { useMutation, useQuery } from "react-query";
 import { useParams, useNavigate } from "react-router-dom";
 import { API } from "../config/api";
 import Swal from "sweetalert2";
-import { useState } from "react";
-
-// import ModalLogin from "./ModalLogin";
-// import ModalRegister from "./ModalRegister";
+// import { useState } from "react";
 
 const Products = (props) => {
-  // const params = useParams();
-  // const id = parseInt(params.id);
-
-  // const getProduct = JSON.parse(localStorage.getItem("dataProduct"));
-  // const findProduct = getProduct.find((product) => product.id === id);
-
-  // const handleCart = () => {
-  //   const dataCart = JSON.parse(localStorage.getItem("dataCart")) || [];
-  //   const newProduct = {
-  //     id: findProduct.id,
-  //     name: findProduct.name,
-
-  //     price: findProduct.price,
-  //     photo: findProduct.photo,
-  //     qty: 1,
-  //   };
-
-  //   const indexCart = dataCart.findIndex((item) => item.id === id);
-  //   if (indexCart === -1) {
-  //     dataCart.push(newProduct);
-  //   } else {
-  //     dataCart[indexCart].qty = dataCart[indexCart].qty+1
-  //   }
-  //   localStorage.setItem("dataCart", JSON.stringify(dataCart));
-  //   window.dispatchEvent(new Event("storage"));
-  // };
-
-  // const [showLogin, setModalLogin] = useState(false);
-  // const [showRegister, setModalRegister] = useState(false);
-
   const navigate = useNavigate();
-  const { IsLogin, user } = props;
-  const [showLogin, setModalLogin] = useState(false);
+  // const { IsLogin, user } = props;
+  // const [showLogin, setModalLogin] = useState(false);
 
   // Fetching product data from database
   let { data: products } = useQuery("productsCache", async () => {
