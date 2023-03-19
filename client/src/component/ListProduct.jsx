@@ -33,7 +33,7 @@ function ListProduct() {
     try {
       const response = await API.delete(`/product/${id}`);
       console.log(response);
-      refetch();
+
       navigate("/list-product");
       Swal.fire({
         position: "center",
@@ -51,6 +51,8 @@ function ListProduct() {
         timer: 1500,
       });
       console.log(error);
+    } finally {
+      refetch();
     }
   });
 
