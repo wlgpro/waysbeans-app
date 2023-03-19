@@ -53,6 +53,7 @@ function ListProduct() {
       console.log(error);
     } finally {
       refetch();
+      window.location.reload();
     }
   });
 
