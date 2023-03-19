@@ -155,7 +155,7 @@ function Cart() {
                       <div className="d-flex justify-content-between align-items-center">
                         <div className="d-flex flex-wrap align-items-center">
                           <img
-                            src={`http://localhost:5000/uploads/${item.product.photo}`}
+                            src={item.product.photo}
                             alt={item.name}
                             className="me-3"
                             style={{ width: "7.5rem" }}

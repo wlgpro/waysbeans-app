@@ -8,7 +8,7 @@ import { Button, Form } from "react-bootstrap";
 
 import { API } from "../config/api";
 import { useMutation } from "react-query";
-import Swal from 'sweetalert2';
+import Swal from "sweetalert2";
 
 function UpdateProduct() {
   // let navigate = useNavigate();
@@ -71,16 +71,16 @@ function UpdateProduct() {
 
   const [imageUrl, setImageUrl] = useState("");
   const [formUpdateProduct, setForm] = useState({
-    photo: '',
-    name: '',
-    description: '',
-    price: '',
-    stock: '',
+    photo: "",
+    name: "",
+    description: "",
+    price: "",
+    stock: "",
   }); //Store product data
 
   async function getDataUpdate() {
-    const responseProduct = await API.get('/product/' + id);
-    setImageUrl(`http://localhost:5000/uploads/` + responseProduct.data.data.photo);
+    const responseProduct = await API.get("/product/" + id);
+    setImageUrl(responseProduct.data.data.photo);
 
     setForm({
       ...formUpdateProduct,
@@ -92,19 +92,19 @@ function UpdateProduct() {
   }
 
   useEffect(() => {
-    getDataUpdate()
+    getDataUpdate();
   }, []);
 
-   // Handle change data on form
-   const handleChange = (e) => {
+  // Handle change data on form
+  const handleChange = (e) => {
     setForm({
       ...formUpdateProduct,
       [e.target.name]:
-        e.target.type === 'file' ? e.target.files : e.target.value,
+        e.target.type === "file" ? e.target.files : e.target.value,
     });
 
     // Create image url for preview
-    if (e.target.type === 'file') {
+    if (e.target.type === "file") {
       let url = URL.createObjectURL(e.target.files[0]);
       setImageUrl(url);
     }
@@ -117,36 +117,36 @@ function UpdateProduct() {
       // Configuration
       const config = {
         headers: {
-          'Content-type': 'multipart/form-data',
+          "Content-type": "multipart/form-data",
         },
       };
 
       // Store data with FormData as object
       const formData = new FormData();
       if (formUpdateProduct.photo) {
-        formData.set('photo', formUpdateProduct?.photo[0], formUpdateProduct?.photo[0]?.name);
+        formData.set(
+          "photo",
+          formUpdateProduct?.photo[0],
+          formUpdateProduct?.photo[0]?.name
+        );
       }
-      formData.set('name', formUpdateProduct.name);
-      formData.set('description', formUpdateProduct.description);
-      formData.set('price', formUpdateProduct.price);
-      formData.set('stock', formUpdateProduct.stock);
+      formData.set("name", formUpdateProduct.name);
+      formData.set("description", formUpdateProduct.description);
+      formData.set("price", formUpdateProduct.price);
+      formData.set("stock", formUpdateProduct.stock);
 
       // await disini berfungsi untuk menunggu sampai promise tersebut selesai dan mengembalikkan hasilnya
-      const response = await API.patch(
-        '/product/' + id,
-        formData,
-        config
-      );
+      const response = await API.patch("/product/" + id, formData, config);
       console.log(response.data);
 
-      navigate('/list-product');
+      navigate("/list-product");
       Swal.fire({
-        position: 'center',
-        icon: 'success',
-        title: 'Update Product Success',
+        position: "center",
+        icon: "success",
+        title: "Update Product Success",
         showConfirmButton: false,
-        timer: 1500
-      })
+        timer: 1500,
+      });
     } catch (error) {
       console.log(error);
     }
@@ -154,9 +154,15 @@ function UpdateProduct() {
 
   return (
     <div>
-      <div className="container d-flex justify-content-around align-items-center my-5" style={{ marginTop: 46 }}>
+      <div
+        className="container d-flex justify-content-around align-items-center my-5"
+        style={{ marginTop: 46 }}
+      >
         <div style={{ width: 472 }}>
-          <p className="fw-bold fs-3" style={{ color: "#613D2B", marginBottom: 31 }}>
+          <p
+            className="fw-bold fs-3"
+            style={{ color: "#613D2B", marginBottom: 31 }}
+          >
             Add Product
           </p>
 
@@ -220,7 +226,13 @@ function UpdateProduct() {
                 value={formUpdateProduct.description}
                 onChange={handleChange}
                 id="description"
-                style={{ height: 150, resize: "none", textColor: "#613D2B", backgroundColor: "rgba(97, 61, 43, 0.25)", border: "2px solid #613D2B" }}
+                style={{
+                  height: 150,
+                  resize: "none",
+                  textColor: "#613D2B",
+                  backgroundColor: "rgba(97, 61, 43, 0.25)",
+                  border: "2px solid #613D2B",
+                }}
               ></textarea>
             </div>
 
@@ -238,7 +250,14 @@ function UpdateProduct() {
             >
               <Form.Label className="d-flex">
                 <div className="d-flex justify-content-between align-text-center">
-                  <Form.Control name="photo" onChange={handleChange} type="file" hidden placeholder="Photo Product" cursor="pointer"/>
+                  <Form.Control
+                    name="photo"
+                    onChange={handleChange}
+                    type="file"
+                    hidden
+                    placeholder="Photo Product"
+                    cursor="pointer"
+                  />
                   <p className="m-0 mt-2 ms-2" style={{ color: "grey" }}>
                     Photo Product
                   </p>

@@ -103,7 +103,7 @@ const Products = (props) => {
         <div className="left-content">
           <div className="img-wrapper" style={{ width: 436, height: 555 }}>
             <img
-              src={`http://localhost:5000/uploads/${Product.photo}`}
+              src={Product.photo}
               alt={Product.name}
               style={{ width: "100%" }}
             />
