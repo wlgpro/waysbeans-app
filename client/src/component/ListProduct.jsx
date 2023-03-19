@@ -41,6 +41,9 @@ function ListProduct() {
         title: "Delete Success",
         showConfirmButton: false,
         timer: 1500,
+      }).then(() => {
+        refetch();
+        window.location.reload();
       });
     } catch (error) {
       Swal.fire({
@@ -51,9 +54,6 @@ function ListProduct() {
         timer: 1500,
       });
       console.log(error);
-    } finally {
-      refetch();
-      window.location.reload();
     }
   });
 
