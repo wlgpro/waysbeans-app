@@ -39,11 +39,11 @@ const Home = () => {
                   variant="top"
                   src={item.photo}
                   to="/detail-product"
-                  style={{ height: "60%" }}
+                  style={{ height: "70%" }}
                 />
                 <Card.Body
                   style={{ color: "#613D2B", fontSize: 14 }}
-                  className="mt-5"
+                  className="mt-4"
                 >
                   <Card.Title
                     className="fw-bold"
